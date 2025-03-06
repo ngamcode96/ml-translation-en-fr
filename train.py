@@ -132,6 +132,7 @@ model, optimizer, trainloader, testloader, scheduler = accelerator.prepare(
     model, optimizer, train_loader, test_loader, scheduler
 )
 
+model = torch.nn.parallel.DistributedDataParallel(model, find_unused_parameters=True)
 accelerator.register_for_checkpointing(scheduler)
 
 #RESUME FROM CHECKPOINT
