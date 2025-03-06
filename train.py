@@ -13,6 +13,8 @@ from accelerate import Accelerator
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
+os.environ["HF_TOKEN"] = "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"
+
 
 # MODEL CONFIG
 src_vocab_size: int = 32000
