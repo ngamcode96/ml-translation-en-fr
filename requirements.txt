@@ -4,3 +4,4 @@ huggingface-hub
 sentencepiece
 transformers
 wandb
+matplotlib
