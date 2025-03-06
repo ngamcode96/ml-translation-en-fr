@@ -39,15 +39,15 @@ config = TransformerConfig(
 
 
 # TOKENIZER CONFIG
-src_tokenizer_path = "/home/ngam/Documents/translator-en-fr/trained_tokenizers/vocab_en.json"
-tgt_tokenizer_path = "/home/ngam/Documents/translator-en-fr/trained_tokenizers/vocab_fr.json"
+src_tokenizer_path = "~/translator-en-fr/trained_tokenizers/vocab_en.json"
+tgt_tokenizer_path = "~/translator-en-fr/trained_tokenizers/vocab_fr.json"
 
 src_tokenizer = CustomTokenizer(path_to_vocab=src_tokenizer_path, max_length=config.max_seq_length)
 tgt_tokenizer = CustomTokenizer(path_to_vocab=tgt_tokenizer_path, max_length=config.max_seq_length)
 
 
 # DATALOADER CONFIG
-path_to_data = "/home/ngam/Documents/translator-en-fr/data/tokenized_dataset"
+path_to_data = "~/translator-en-fr/data/tokenized_dataset"
 batch_size = 4
 gradient_accumulation_steps = 2
 num_workers = 4
