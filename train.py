@@ -5,7 +5,7 @@ import torch
 from model import Transformer, TransformerConfig
 from data_collector import DataCollector
 from torch.utils.data import DataLoader
-from datasets import load_from_disk
+from datasets import load_from_disk, load_dataset
 from transformers import get_scheduler
 from tokenizer import CustomTokenizer
 from tqdm import tqdm
@@ -86,7 +86,8 @@ config.device = accelerator.device
 
 
 # Prepare Dataloaders
-dataset = load_from_disk(dataset_path=path_to_data)
+# dataset = load_from_disk(dataset_path=path_to_data)
+dataset = load_dataset("ngia/tokenized-translation-en-fr")
 accelerator.print("Dataset:", dataset)
 min_batch_size = batch_size // gradient_accumulation_steps
 train_dataset = DataCollector(dataset=dataset["train"].select(range(1000)), english_tokenizer=src_tokenizer, french_tokenizer=tgt_tokenizer, max_length=config.max_seq_length)
