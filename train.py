@@ -49,7 +49,7 @@ tgt_tokenizer = CustomTokenizer(path_to_vocab=tgt_tokenizer_path, max_length=con
 
 # DATALOADER CONFIG
 path_to_data = "data/tokenized_dataset"
-batch_size = 128
+batch_size = 64
 gradient_accumulation_steps = 2
 # num_workers = 4
 
