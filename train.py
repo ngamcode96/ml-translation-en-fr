@@ -91,11 +91,11 @@ config.device = accelerator.device
 dataset = load_dataset("ngia/tokenized-translation-en-fr")
 accelerator.print("Dataset:", dataset)
 min_batch_size = batch_size // gradient_accumulation_steps
-train_dataset = DataCollector(dataset=dataset["train"].select(range(1000)), english_tokenizer=src_tokenizer, french_tokenizer=tgt_tokenizer, max_length=config.max_seq_length)
-test_dataset = DataCollector(dataset=dataset["test"].select(range(20)), english_tokenizer=tgt_tokenizer, french_tokenizer=tgt_tokenizer, max_length=config.max_seq_length)
+train_dataset = DataCollector(dataset=dataset["train"], english_tokenizer=src_tokenizer, french_tokenizer=tgt_tokenizer, max_length=config.max_seq_length)
+test_dataset = DataCollector(dataset=dataset["test"], english_tokenizer=tgt_tokenizer, french_tokenizer=tgt_tokenizer, max_length=config.max_seq_length)
     
-train_loader = DataLoader(dataset=train_dataset, batch_size=min_batch_size)
-test_loader = DataLoader(dataset=test_dataset, batch_size=min_batch_size)
+train_loader = DataLoader(dataset=train_dataset, batch_size=min_batch_size, shuffle=True)
+test_loader = DataLoader(dataset=test_dataset, batch_size=min_batch_size, shuffle=False)
 
 
 # Prepare model
