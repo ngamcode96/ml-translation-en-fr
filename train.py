@@ -18,7 +18,7 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 # MODEL CONFIG
 src_vocab_size: int = 32000
 tgt_vocab_size: int = 32000
-max_seq_length: int = 64
+max_seq_length: int = 512
 d_model: int = 512
 num_heads: int = 8
 num_encoder_layers: int = 6
