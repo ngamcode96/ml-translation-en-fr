@@ -1,0 +1,6 @@
+accelerate
+datasets
+huggingface-hub
+sentencepiece
+transformers
+wandb

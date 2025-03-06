@@ -13,7 +13,6 @@ from accelerate import Accelerator
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
-os.environ["HF_TOKEN"] = "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"
 
 
 # MODEL CONFIG
