@@ -49,9 +49,9 @@ tgt_tokenizer = CustomTokenizer(path_to_vocab=tgt_tokenizer_path, max_length=con
 
 # DATALOADER CONFIG
 path_to_data = "data/tokenized_dataset"
-batch_size = 4
+batch_size = 128
 gradient_accumulation_steps = 2
-num_workers = 4
+# num_workers = 4
 
 # Training Config
 learning_rate = 1e-4
@@ -94,8 +94,8 @@ min_batch_size = batch_size // gradient_accumulation_steps
 train_dataset = DataCollector(dataset=dataset["train"].select(range(1000)), english_tokenizer=src_tokenizer, french_tokenizer=tgt_tokenizer, max_length=config.max_seq_length)
 test_dataset = DataCollector(dataset=dataset["test"].select(range(20)), english_tokenizer=tgt_tokenizer, french_tokenizer=tgt_tokenizer, max_length=config.max_seq_length)
     
-train_loader = DataLoader(dataset=train_dataset, batch_size=min_batch_size, num_workers=num_workers)
-test_loader = DataLoader(dataset=test_dataset, batch_size=min_batch_size, num_workers=num_workers)
+train_loader = DataLoader(dataset=train_dataset, batch_size=min_batch_size)
+test_loader = DataLoader(dataset=test_dataset, batch_size=min_batch_size)
 
 
 # Prepare model
