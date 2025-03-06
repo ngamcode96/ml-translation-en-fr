@@ -81,6 +81,9 @@ accelerator = Accelerator(project_dir=path_to_experiment,
 
 #accelerator.init_trackers(experiment_name)
 
+#config model device
+config.device = accelerator.device
+
 
 # Prepare Dataloaders
 dataset = load_from_disk(dataset_path=path_to_data)

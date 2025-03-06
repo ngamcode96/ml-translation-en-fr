@@ -17,6 +17,7 @@ class TransformerConfig:
     num_decoder_layers: int = 6
     dropout_p: float = 0.1
     dff: int = 2048
+    device: str = 'cpu' 
 
 
 
@@ -91,15 +92,15 @@ class MultiheadAttention(nn.Module):
             #MASKED MULTI HEAD ATTENTION
             if attention_mask is not None:
                 attention_mask = attention_mask.bool()
-                attention_mask = attention_mask.unsqueeze(1).unsqueeze(1).repeat(1,1,src_seq_length,1)
+                attention_mask = attention_mask.unsqueeze(1).unsqueeze(1).repeat(1,1,src_seq_length,1).to(self.config.device)
             
             if causal and attention_mask is not None:
                 # compute new mask (pad mask + causal mask)
                 causal_mask = ~torch.triu(torch.ones((src_seq_length, src_seq_length), dtype=torch.bool), diagonal=1)
-                causal_mask = causal_mask.unsqueeze(0).unsqueeze(0)
+                causal_mask = causal_mask.unsqueeze(0).unsqueeze(0).to(self.config.device)
         
                 combined_mask = causal_mask.int() * attention_mask.int()
-                attention_mask = combined_mask.bool()
+                attention_mask = combined_mask.bool().to(self.config.device)
                 # torch.set_printoptions(threshold=torch.inf)
   
         
