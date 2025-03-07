@@ -77,7 +77,6 @@ logging_interval = 1
 resume_from_checkpoint = "checkpoint_80000"
 
 
-
 #Prepare Accelerator
 path_to_experiment = os.path.join(working_directory, experiment_name)
 accelerator = Accelerator(project_dir=path_to_experiment,
@@ -108,6 +107,7 @@ params = sum([np.prod(p.size()) for p in model_parameters])
 accelerator.print("Number of trainable parameters:", params)
 
 
+
 # Prepare Optimizer
 optimizer = torch.optim.AdamW(model.parameters(), 
                                   lr=learning_rate,
@@ -134,6 +134,8 @@ src_ids = torch.tensor(src_tokenizer.encode("I want to learn how to training a m
 model, optimizer, trainloader, testloader, scheduler = accelerator.prepare(
     model, optimizer, train_loader, test_loader, scheduler
 )
+
+torch.save(model.state_dict(), f"{path_to_experiment}/pytorch_model.bin")
 
 # model = torch.nn.parallel.DistributedDataParallel(model, find_unused_parameters=True)
 accelerator.register_for_checkpointing(scheduler)
