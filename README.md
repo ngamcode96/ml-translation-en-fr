@@ -1,0 +1,1 @@
+wget https://huggingface.co/ngia/ml-translation-en-fr/resolve/main/checkpoint_80000/model.safetensors

@@ -19,7 +19,7 @@ src_tokenizer = CustomTokenizer(path_to_vocab=path_to_src_tokenizer)
 tgt_tokenizer = CustomTokenizer(path_to_vocab=path_to_tgt_tokenizer)
 
 
-english_text = "So I dont know a word of french, but we can try to drop our french prediction into Google Translate and see what we get in English"
+english_text = "Hello, how are you ?"
 
 src_ids = torch.tensor(src_tokenizer.encode(english_text)).unsqueeze(0)
 
