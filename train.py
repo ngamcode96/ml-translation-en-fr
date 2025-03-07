@@ -171,7 +171,8 @@ def push_model_HF(repo_id, path_to_experiment, step):
 
 
 #copy tokenizers 
-shutil.copytree("trained_tokenizers", path_to_experiment)
+shutil.copy2("trained_tokenizers/vocab_en.json", f"{path_to_experiment}/vocab_en.json")
+shutil.copy2("trained_tokenizers/vocab_fr.json", f"{path_to_experiment}/vocab_fr.json")
 
 
 #push model on HF
