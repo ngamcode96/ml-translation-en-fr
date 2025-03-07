@@ -10,6 +10,7 @@ from transformers import get_scheduler
 from tokenizer import CustomTokenizer
 from tqdm import tqdm
 from accelerate import Accelerator
+import wandb
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
@@ -71,7 +72,7 @@ experiment_name = "Seq2Seq_Neural_Machine_Translation"
 logging_interval = 1
 
 #Resume from checkpoint
-resume_from_checkpoint = "checkpoint_5000"
+resume_from_checkpoint = None
 
 
 
@@ -80,7 +81,7 @@ path_to_experiment = os.path.join(working_directory, experiment_name)
 accelerator = Accelerator(project_dir=path_to_experiment,
                           log_with="wandb")
 
-#accelerator.init_trackers(experiment_name)
+accelerator.init_trackers(experiment_name)
 
 #config model device
 config.device = accelerator.device
