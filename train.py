@@ -74,7 +74,7 @@ experiment_name = "Seq2Seq_Neural_Machine_Translation"
 logging_interval = 1
 
 #Resume from checkpoint
-resume_from_checkpoint = None
+resume_from_checkpoint = "checkpoint_80000"
 
 
 
