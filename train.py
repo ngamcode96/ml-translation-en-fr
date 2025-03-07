@@ -135,7 +135,7 @@ model, optimizer, trainloader, testloader, scheduler = accelerator.prepare(
     model, optimizer, train_loader, test_loader, scheduler
 )
 
-torch.save(model.state_dict(), f"{path_to_experiment}/{resume_from_checkpoint}/pytorch_model.bin")
+# torch.save(model.state_dict(), f"{path_to_experiment}/{resume_from_checkpoint}/pytorch_model.bin")
 
 # model = torch.nn.parallel.DistributedDataParallel(model, find_unused_parameters=True)
 accelerator.register_for_checkpointing(scheduler)
