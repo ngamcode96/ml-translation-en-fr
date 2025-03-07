@@ -11,6 +11,7 @@ from tokenizer import CustomTokenizer
 from tqdm import tqdm
 from accelerate import Accelerator
 import wandb
+from huggingface_hub import HfApi, Repository, create_repo
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
@@ -72,7 +73,7 @@ experiment_name = "Seq2Seq_Neural_Machine_Translation"
 logging_interval = 1
 
 #Resume from checkpoint
-resume_from_checkpoint = None
+resume_from_checkpoint = "checkpoint_10000"
 
 
 
@@ -153,9 +154,33 @@ else:
     completed_steps = 0
     
 
+
+def push_model_HF(repo_id, path_to_experiment, step):
+    """Save model and tokenizer locally, then push to Hugging Face Hub."""
+
+    # Push to Hugging Face Hub
+    api = HfApi()
+    create_repo(repo_id, exist_ok=True)
+    repo = Repository(local_dir=path_to_experiment, clone_from=repo_id)
+    repo.git_add()
+    repo.git_commit(f"Checkpoint at step {step}")
+    repo.git_push()
+    
+    print(f"Checkpoint {step} pushed to {repo_id}")
+
+#Save tokenizer
+src_tokenizer.save_pretrained(path_to_experiment)
+tgt_tokenizer.save_pretrained(path_to_experiment)
+
+
+#push model on HF
+push_model_HF(repo_id="ngia/ml-translation-en-fr", path_to_experiment=path_to_experiment, step=completed_steps)
+
+
 train = True
 progress_bar = tqdm(range(completed_steps, training_steps), disable= not accelerator.is_local_main_process)
 
+save_dir = ""
 
 while train:
     accumulate_steps = 0
@@ -287,6 +312,9 @@ while train:
                 ### Log and Save Model ###
                 accelerator.log(log, step=completed_steps)
                 accelerator.save_state(os.path.join(path_to_experiment, f"checkpoint_{completed_steps}"))
+                
+                push_model_HF(repo_id="ngia/ml-translation-en-fr", path_to_experiment=path_to_experiment, step=completed_steps)
+                
                 
                 ### Testing Sentence ###
                 if accelerator.is_main_process:
