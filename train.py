@@ -162,10 +162,12 @@ def push_model_HF(repo_id, path_to_experiment, step):
     # Push to Hugging Face Hub
     api = HfApi()
     create_repo(repo_id, exist_ok=True)
-    repo = Repository(local_dir=path_to_experiment, clone_from=repo_id)
-    repo.git_add()
-    repo.git_commit(f"Checkpoint at step {step}")
-    repo.git_push()
+    
+    api.upload_folder(
+        folder_path=path_to_experiment,
+        repo_id=repo_id,
+        repo_type="model"  # or "dataset" if it's a dataset
+    )
     
     print(f"Checkpoint {step} pushed to {repo_id}")
 
