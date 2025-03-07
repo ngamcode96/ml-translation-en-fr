@@ -58,7 +58,7 @@ learning_rate = 1e-4
 training_steps = 150000 
 warmup_steps = 2000
 scheduler_type = "cosine"
-evaluation_steps = 2500
+evaluation_steps = 10000
 bias_norm_weight_decay = False
 weight_decay = 0.001
 betas = (0.9, 0.98)
@@ -71,7 +71,7 @@ experiment_name = "Seq2Seq_Neural_Machine_Translation"
 logging_interval = 1
 
 #Resume from checkpoint
-resume_from_checkpoint = None
+resume_from_checkpoint = "checkpoint_5000"
 
 
 
