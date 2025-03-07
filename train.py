@@ -58,10 +58,10 @@ gradient_accumulation_steps = 2
 
 # Training Config
 learning_rate = 1e-4
-training_steps = 150000 
+training_steps = 170000 
 warmup_steps = 2000
 scheduler_type = "cosine"
-evaluation_steps = 10000
+evaluation_steps = 5000
 bias_norm_weight_decay = False
 weight_decay = 0.001
 betas = (0.9, 0.98)
