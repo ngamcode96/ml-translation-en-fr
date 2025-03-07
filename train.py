@@ -5,7 +5,7 @@ import torch
 from model import Transformer, TransformerConfig
 from data_collector import DataCollector
 from torch.utils.data import DataLoader
-from datasets import load_from_disk, load_dataset,DatasetDict
+from datasets import load_from_disk, load_dataset,DatasetDict,concatenate_datasets
 from transformers import get_scheduler
 from tokenizer import CustomTokenizer
 from tqdm import tqdm
@@ -97,12 +97,16 @@ train_subset = dataset2["train"].shuffle(seed=42).select(range(int(0.05 * len(da
 test_subset = dataset2["test"].shuffle(seed=42).select(range(int(0.2 * len(dataset2["test"]))))
 
 # Créer un nouveau dataset combiné
-dataset = DatasetDict(
-    {
-        "train": train_subset.concatenate(dataset1["train"]).shuffle(seed=42),
-        "test": test_subset.concatenate(dataset1["test"]).shuffle(seed=42)
-    }
-)
+train_combined = concatenate_datasets([train_subset, dataset1["train"]]).shuffle(seed=42)
+test_combined = concatenate_datasets([test_subset, dataset1["test"]]).shuffle(seed=42)
+
+# Créer le DatasetDict final
+dataset = DatasetDict({
+    "train": train_combined,
+    "test": test_combined
+})
+
+
 accelerator.print("Dataset:", dataset)
 min_batch_size = batch_size // gradient_accumulation_steps
 train_dataset = DataCollector(dataset=dataset["train"], english_tokenizer=src_tokenizer, french_tokenizer=tgt_tokenizer, max_length=config.max_seq_length)
