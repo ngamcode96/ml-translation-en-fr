@@ -5,7 +5,7 @@ import torch
 from model import Transformer, TransformerConfig
 from data_collector import DataCollector
 from torch.utils.data import DataLoader
-from datasets import load_from_disk, load_dataset
+from datasets import load_from_disk, load_dataset,DatasetDict
 from transformers import get_scheduler
 from tokenizer import CustomTokenizer
 from tqdm import tqdm
@@ -90,7 +90,19 @@ config.device = accelerator.device
 
 # Prepare Dataloaders
 # dataset = load_from_disk(dataset_path=path_to_data)
-dataset = load_dataset("ngia/tokenized-translation-en-fr-small")
+dataset1 = load_dataset("ngia/tokenized-translation-en-fr-small")
+dataset2 = load_dataset("ngia/tokenized-translation-en-fr")
+
+train_subset = dataset2["train"].shuffle(seed=42).select(range(int(0.05 * len(dataset2["train"]))))
+test_subset = dataset2["test"].shuffle(seed=42).select(range(int(0.2 * len(dataset2["test"]))))
+
+# Créer un nouveau dataset combiné
+dataset = DatasetDict(
+    {
+        "train": train_subset.concatenate(dataset1["train"]).shuffle(seed=42),
+        "test": test_subset.concatenate(dataset1["test"]).shuffle(seed=42)
+    }
+)
 accelerator.print("Dataset:", dataset)
 min_batch_size = batch_size // gradient_accumulation_steps
 train_dataset = DataCollector(dataset=dataset["train"], english_tokenizer=src_tokenizer, french_tokenizer=tgt_tokenizer, max_length=config.max_seq_length)
