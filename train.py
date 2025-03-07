@@ -74,7 +74,7 @@ experiment_name = "Seq2Seq_Neural_Machine_Translation"
 logging_interval = 1
 
 #Resume from checkpoint
-resume_from_checkpoint = "checkpoint_80000"
+resume_from_checkpoint = "checkpoint_90000"
 
 
 #Prepare Accelerator
