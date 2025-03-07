@@ -52,7 +52,7 @@ tgt_tokenizer = CustomTokenizer(path_to_vocab=tgt_tokenizer_path, max_length=con
 
 # DATALOADER CONFIG
 path_to_data = "data/tokenized_dataset"
-batch_size = 64
+batch_size = 128
 gradient_accumulation_steps = 2
 # num_workers = 4
 
@@ -74,7 +74,7 @@ experiment_name = "Seq2Seq_Neural_Machine_Translation"
 logging_interval = 1
 
 #Resume from checkpoint
-resume_from_checkpoint = "checkpoint_10000"
+resume_from_checkpoint = "checkpoint_80000"
 
 
 
@@ -338,6 +338,7 @@ while train:
             if completed_steps >= training_steps:
                 train = False
                 accelerator.save_state(os.path.join(path_to_experiment, f"final_checkpoint"))
+                push_model_HF(repo_id="ngia/ml-translation-en-fr", path_to_experiment=path_to_experiment, step=completed_steps)
                 break
             
             ### Iterate Completed Steps ###
