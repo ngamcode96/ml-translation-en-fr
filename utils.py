@@ -16,7 +16,7 @@ def get_files_from_HF(repo_id, folder_name, local_dir):
 if __name__ == "__main__":
     repo_id = "ngia/ml-translation-en-fr"
     folder_name = "checkpoint_80000"
-    local_dir = "work_dir/Seq2Seq_Neural_Machine_Translation/checkpoint_80000"
+    local_dir = "work_dir/Seq2Seq_Neural_Machine_Translation/"
     
     os.makedirs(name=local_dir, exist_ok=True)
     
