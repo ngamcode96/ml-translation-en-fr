@@ -12,9 +12,10 @@ from tqdm import tqdm
 from accelerate import Accelerator
 import wandb
 from huggingface_hub import HfApi, Repository, create_repo
+import shutil
+
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
-
 
 
 # MODEL CONFIG
@@ -168,9 +169,9 @@ def push_model_HF(repo_id, path_to_experiment, step):
     
     print(f"Checkpoint {step} pushed to {repo_id}")
 
-#Save tokenizer
-src_tokenizer.tokenizer.save_pretrained(path_to_experiment)
-tgt_tokenizer.tokenizer.save_pretrained(path_to_experiment)
+
+#copy tokenizers 
+shutil.copytree("trained_tokenizers", path_to_experiment)
 
 
 #push model on HF
