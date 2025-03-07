@@ -19,7 +19,7 @@ src_tokenizer = CustomTokenizer(path_to_vocab=path_to_src_tokenizer)
 tgt_tokenizer = CustomTokenizer(path_to_vocab=path_to_tgt_tokenizer)
 
 
-english_text = "Hello, how are you ?"
+english_text = "How dare you speak like that?"
 
 src_ids = torch.tensor(src_tokenizer.encode(english_text)).unsqueeze(0)
 
