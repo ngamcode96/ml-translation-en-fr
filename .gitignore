@@ -5,18 +5,16 @@ build/
 dist/
 wheels/
 *.egg-info
+.cache
 
 # Virtual environments
 .venv
 .env
 
-#
+#folders
 trained_tokenizers/
 checkpoints/
 work_dir/
 data/
-
-
-
 pyproject copy.toml
 
