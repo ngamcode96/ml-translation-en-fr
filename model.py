@@ -1,8 +1,10 @@
 from dataclasses import dataclass
 import torch
 from torch import nn
-import matplotlib.pyplot as plt
 import torch.nn.functional as F
+import os
+from utils import get_file_FROM_HF
+from safetensors.torch import load_file
 
 
 
@@ -270,7 +272,18 @@ class Transformer(nn.Module):
                 break
         
         return tgt_ids.squeeze().cpu().tolist()
-            
+    
+    def load_weights_from_checkpoints(self, path_to_checkpoints):
+        if not os.path.exists(path_to_checkpoints):
+            print("------------------- LOADING MODEL CHECKPOINTS FROM HUGGING FACE --------------------------")
+            folder = os.path.dirname(path_to_checkpoints)
+            os.makedirs(folder, exist_ok=True)
+            path_to_checkpoints = get_file_FROM_HF(repo_id="ngia/ml-translation-en-fr", file_path="final_checkpoint/model.safetensors", local_dir=folder)
+        
+        chekpoints = load_file(filename=path_to_checkpoints)
+        self.load_state_dict(chekpoints)
+        return self
+
         
         
 

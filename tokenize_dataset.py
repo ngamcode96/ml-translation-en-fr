@@ -43,7 +43,7 @@ def tokenize_dataset(path_to_dataset,
 if __name__ == "__main__":
     path_to_dataset = "data/saved_data"
     path_to_save = "data/tokenized_dataset"
-    # tokenize_dataset(path_to_dataset=path_to_dataset, path_to_save=path_to_save)
+    tokenize_dataset(path_to_dataset=path_to_dataset, path_to_save=path_to_save)
     
     #push dataset into the hub: 
     tokenized_dataset = load_from_disk(dataset_path=path_to_save)

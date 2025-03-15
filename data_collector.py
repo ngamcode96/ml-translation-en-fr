@@ -52,9 +52,9 @@ class DataCollector(Dataset):
         label_tgt[label_tgt == tgt_pad_token] = -100
 
         return {
-            "src_input_ids": english_input_ids,   # Taille fixe : (self.max_length,)
+            "src_input_ids": english_input_ids,   # Taille fixe: (self.max_length,)
             "src_pad_mask": src_pad_mask,
-            "tgt_input_ids": french_input_ids,      # Taille fixe : (self.max_length,)
+            "tgt_input_ids": french_input_ids,      # Taille fixe: (self.max_length,)
             "tgt_pad_mask": torch.cat([input_tgt_mask, torch.full((1,), 0, dtype=french_input_ids.dtype)]),
             "tgt_labels": torch.cat([label_tgt, torch.full((1,), -100, dtype=french_input_ids.dtype)])
         }

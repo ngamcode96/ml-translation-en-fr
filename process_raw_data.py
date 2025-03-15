@@ -56,9 +56,9 @@ if __name__ == "__main__":
     save_data_path = "data/saved_data/"
     cache_data_path = "data/cached_data/"
     
-    # create_dataset(root_data_path=root_data_path, save_data_path=save_data_path, cache_data_path=cache_data_path)
-    # dataset = load_from_disk(dataset_path=save_data_path)
-    # print(dataset["train"][10])
+    create_dataset(root_data_path=root_data_path, save_data_path=save_data_path, cache_data_path=cache_data_path)
+    dataset = load_from_disk(dataset_path=save_data_path)
+    print(dataset["train"][10])
     
     push_dataset_into_hf_hub(save_data_path=save_data_path)
     

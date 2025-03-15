@@ -11,7 +11,7 @@ from tokenizer import CustomTokenizer
 from tqdm import tqdm
 from accelerate import Accelerator
 import wandb
-from huggingface_hub import HfApi, Repository, create_repo
+from huggingface_hub import HfApi, create_repo
 import shutil
 
 
@@ -74,7 +74,7 @@ experiment_name = "Seq2Seq_Neural_Machine_Translation"
 logging_interval = 1
 
 #Resume from checkpoint
-resume_from_checkpoint = "checkpoint_150000"
+resume_from_checkpoint = "checkpoint_170000"
 
 
 #Prepare Accelerator
@@ -89,22 +89,7 @@ config.device = accelerator.device
 
 
 # Prepare Dataloaders
-# dataset = load_from_disk(dataset_path=path_to_data)
-dataset1 = load_dataset("ngia/tokenized-translation-en-fr-small")
-dataset2 = load_dataset("ngia/tokenized-translation-en-fr")
-
-train_subset = dataset2["train"].shuffle(seed=42).select(range(int(0.05 * len(dataset2["train"]))))
-test_subset = dataset2["test"].shuffle(seed=42).select(range(int(0.2 * len(dataset2["test"]))))
-
-# Créer un nouveau dataset combiné
-train_combined = concatenate_datasets([train_subset, dataset1["train"]]).shuffle(seed=42)
-test_combined = concatenate_datasets([test_subset, dataset1["test"]]).shuffle(seed=42)
-
-# Créer le DatasetDict final
-dataset = DatasetDict({
-    "train": train_combined,
-    "test": test_combined
-})
+dataset = load_dataset("ngia/tokenized-translation-en-fr")
 
 
 accelerator.print("Dataset:", dataset)
@@ -151,22 +136,16 @@ model, optimizer, trainloader, testloader, scheduler = accelerator.prepare(
     model, optimizer, train_loader, test_loader, scheduler
 )
 
-# torch.save(model.state_dict(), f"{path_to_experiment}/{resume_from_checkpoint}/pytorch_model.bin")
 
-# model = torch.nn.parallel.DistributedDataParallel(model, find_unused_parameters=True)
 accelerator.register_for_checkpointing(scheduler)
 
-#RESUME FROM CHECKPOINT
 if resume_from_checkpoint is not None:
 
-    ### Grab path to checkpoint ###
     path_to_checkpoint = os.path.join(path_to_experiment, resume_from_checkpoint)
     
-    ### Load checkpoint on main process first, recommended here: (https://huggingface.co/docs/accelerate/en/concept_guides/deferring_execution) ###
     with accelerator.main_process_first():
         accelerator.load_state(path_to_checkpoint)
     
-    ### Start completed steps from checkpoint index ###
     completed_steps = int(resume_from_checkpoint.split("_")[-1])
     accelerator.print(f"Resuming from Iteration: {completed_steps}")
 else:

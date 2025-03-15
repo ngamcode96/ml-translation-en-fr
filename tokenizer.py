@@ -4,10 +4,10 @@ from tokenizers.trainers import WordPieceTrainer
 from tokenizers.normalizers import NFC, Lowercase
 from tokenizers.pre_tokenizers import Whitespace
 from tokenizers.processors import TemplateProcessing
+from utils import get_file_FROM_HF
 
 import glob
 import os
-import argparse
 
 
 
@@ -75,9 +75,13 @@ class CustomTokenizer:
         
     
     def config_tokenizer(self):
+        if not os.path.exists(self.path_to_vocab):
+            self.path_to_vocab = self.load_file_from_hugging_face()
         tokenizer = Tokenizer.from_file(self.path_to_vocab)
         tokenizer.decoder = decoders.WordPiece()
         return tokenizer
+    
+    
     
     
     def encode(self, input):
@@ -106,6 +110,18 @@ class CustomTokenizer:
                 decoded = self.tokenizer.decode(input, skip_special_tokens=skip_special_tokens)
         
         return decoded
+    
+    def load_file_from_hugging_face(self):
+        filename = os.path.basename(self.path_to_vocab)
+        if filename == "vocab_en.json":
+            print("------------------- LOADING SOURCE TOKENIZER FROM HUGGING FACE --------------------------")
+            
+        elif filename == "vocab_fr.json":
+            print("------------------- LOADING TARGET TOKENIZER FROM HUGGING FACE --------------------------")
+            
+        os.makedirs("trained_tokenizers/", exist_ok=True)
+        path_to_tokenizer = get_file_FROM_HF(repo_id="ngia/ml-translation-en-fr", file_path=filename, local_dir="trained_tokenizers/")
+        return path_to_tokenizer
         
     
 if __name__ == "__main__":

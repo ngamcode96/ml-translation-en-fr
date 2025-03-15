@@ -8,8 +8,15 @@ wheels/
 
 # Virtual environments
 .venv
+.env
+
+#
+trained_tokenizers/
+checkpoints/
 work_dir/
 data/
-checkpoints/
 
-.env
+
+
+pyproject copy.toml
+

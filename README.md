@@ -1,1 +1,2 @@
-wget https://huggingface.co/ngia/ml-translation-en-fr/resolve/main/checkpoint_80000/model.safetensors
+# Training Transformers from scratch for language translation (English to French)
+
