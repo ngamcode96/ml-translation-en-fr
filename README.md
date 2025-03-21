@@ -72,3 +72,8 @@ This will start a Gradio interface where users can input English text and receiv
 - **inference.py** - Inference script for model predictions.
 - **app.py** - Web interface with Gradio.
 - **requirements.txt** - List of dependencies.
+
+## Links: 
+   - [model (Hugging Face):](https://huggingface.co/ngia/ml-translation-en-fr)
+   - [dataset: (Hugging Face):](https://huggingface.co/datasets/ngia/translation-en-fr)
+   - [space (Hugging Face):](https://huggingface.co/spaces/ngia/translation-en-fr)
